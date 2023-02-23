@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap");
+.navbar-brand {
+	padding-left: 50px;
+}
+nav {
+	font-family: "Ubuntu", sans-serif;
+	background-color: darkblue;
+	font-size: 1.2em;
+}
+#register-li {
+	padding-right: 50px;
+}
+li a.nav-link {
+	color:white !important;
+
+}
+
+li a.nav-link:hover {
+	background-color: aqua;
+	color:black !important;
+}
+.nav-item {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.fa, .fas {
+	padding-right: 5px;
+}
