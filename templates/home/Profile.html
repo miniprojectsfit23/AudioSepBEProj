@@ -1,0 +1,45 @@
+{%extends 'home/Base.html'%}
+{%block content%}
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{% static 'home/css/profile.css' %}">
+<!-- Messages Start -->
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'success'%}
+<script
+	type=text/javascript>toastr.options.positionClass = 'toast-bottom-right';toastr.{{ message.tags }}('{{ message }}')</script>
+{% elif message.tags == 'info' %}
+<script
+	type=text/javascript>toastr.options.positionClass = 'toast-bottom-right';toastr.{{ message.tags }}('{{ message }}')</script>
+{% elif message.tags == 'warning' %}
+<script
+	type=text/javascript>toastr.options.positionClass = 'toast-bottom-right';toastr.{{ message.tags }}('{{ message }}')</script>
+{% elif message.tags == 'error' %}
+<script
+	type=text/javascript>toastr.options.positionClass = 'toast-bottom-right';toastr.{{ message.tags }}('{{ message }}')</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+<!-- Messages End -->
+<div class="container py-5 my-5">
+	<div class="row row-cols-1 row-cols-md-3 gy-4">
+		{%for song in songs%}
+		<div class="col">
+			<div class="card h-100">
+				<div class="card-body">
+					<h5 class="card-title p-2">{{song.name}}</h5>
+					<a href="/song/{{song.url}}" class="btn btn-primary p-2 my-2"><i
+							class="fa-solid fa-magnifying-glass"></i> View</a>
+					<a href="#" class="btn btn-danger p-2 my-2" onClick="deleteConfirm('{{song.url}}')"><i
+							class="fa-solid fa-trash"></i>
+						Delete</a>
+					<div class="card-footer mt-3">
+						<small class="text-muted">Uploaded and Seperated {{ song.timesince }} ago</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		{%endfor%}
+	</div>
+</div>
+{%endblock%}

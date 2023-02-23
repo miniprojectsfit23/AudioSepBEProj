@@ -36,6 +36,7 @@ def home(request):
             song.save()
             messages.success(
                 request, "Song Uploaded Successfully. Processing....")
+            return redirect("/song/"+url)
     return render(request, "home/Home.html", {"title": "Seperate"})
 
 
@@ -83,6 +84,27 @@ def register(request):
             messages.error(
                 request, "Password and Confirm Password do not match. Please try again.")
     return render(request, "home/Register.html", {"title": "Register"})
+
+
+@login_required
+def profile(request):
+    songs = Song.objects.filter(user=request.user)
+    return render(request, "home/Profile.html", {"title": "History", "songs": songs})
+
+
+@login_required
+def song(request, url):
+    song = Song.objects.get(url=url)
+    return render(request, "home/Song.html", {"title": "Song", "song": song})
+
+
+@login_required
+def delete_song(request, url):
+    song = Song.objects.get(url=url)
+    if request.user == song.user:
+        song.delete()
+        messages.success(request, "Song Deleted Successfully.")
+    return redirect("home:profile")
 
 
 @login_required

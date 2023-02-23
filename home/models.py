@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
+from django.utils import timesince
 import os
 
 # Create your models here.
@@ -9,19 +10,15 @@ import os
 def create_path(instance, filename):
     if instance.user is None:
         return os.path.join(
-            'uploaded_songs/Anonymous/',
-            filename
+            'Anonymous/',
+            instance.url,
+            "source"+os.path.splitext(filename)[1]
         )
     else:
-        print(os.path.join(
-            'uploaded_songs',
-            str(instance.user),
-            filename
-        ))
         return os.path.join(
-            'uploaded_songs',
             str(instance.user),
-            filename
+            instance.url,
+            "source"+os.path.splitext(filename)[1]
         )
 
 
@@ -47,3 +44,8 @@ class Song(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, related_name="song_uploader")
     upload = models.FileField(upload_to=create_path)
+    uploadedTime = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def timesince(self):
+        return timesince.timesince(self.uploadedTime)
