@@ -23,9 +23,21 @@
 				</li>
 				{%endif%}
 				{%if user.is_authenticated%}
-				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="/profile/"><i
-							class="fa-solid fa-clock-rotate-left"></i> History</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fa-solid fa-user"></i> My Account
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding-bottom:0;">
+						<li><a class="dropdown-item" href="/account/"><i class="fa-solid fa-clock-rotate-left"></i> My
+								Song
+								History</a></li>
+						<li><a class="dropdown-item" href="/change-password/"><i class="fa-solid fa-lock"></i> Change
+								Password</a></li>
+						<li><a class="dropdown-item" href="#" style="background-color: red;"
+								onClick="deleteConfirm('/delete-account/')"><i class="fa-solid fa-trash"></i>
+								Delete Account</a></li>
+					</ul>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/logout/"><i

@@ -28,10 +28,6 @@ class User(AbstractUser):
     email = models.CharField(max_length=100, null=True)
     password = models.CharField(max_length=500)
 
-    def delete(self, *args, **kwargs):
-        self.profile_picture.delete()
-        super(User, self).delete(*args, **kwargs)
-
     def __str__(self):
         return(self.username)
 

@@ -26,6 +26,8 @@ def home(request):
         file = request.FILES.get("songFile")
         if file is not None:
             url = slugify(name)
+            while Song.objects.filter(url=url).exists():
+                url = slugify(name)+str(np.random.randint(10000, 99999))
             if request.user.is_authenticated:
                 user = request.user
                 song = Song.objects.create(
@@ -64,6 +66,7 @@ def register(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         confirmPassword = request.POST.get("confirmPassword")
+        print(username, email, password, confirmPassword)
         if password == confirmPassword:
             if User.objects.filter(username=username).exists():
                 messages.error(
@@ -89,7 +92,34 @@ def register(request):
 @login_required
 def profile(request):
     songs = Song.objects.filter(user=request.user)
-    return render(request, "home/Profile.html", {"title": "History", "songs": songs})
+    return render(request, "home/Profile.html", {"title": "My Account", "songs": songs})
+
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        oldPassword = request.POST.get("oldPassword")
+        newPassword = request.POST.get("newPassword")
+        confirmPassword = request.POST.get("confirmPassword")
+        if request.user.check_password(oldPassword):
+            if oldPassword != newPassword:
+                if newPassword == confirmPassword:
+                    request.user.set_password(newPassword)
+                    request.user.save()
+                    messages.success(
+                        request, "Password Changed Successfully. Please login again.")
+                    logout(request)
+                    return redirect("home:login")
+                else:
+                    messages.error(
+                        request, "New Password and Confirm Password do not match. Please try again.")
+            else:
+                messages.error(
+                    request, "Old Password and New Password cannot be same. Please try again.")
+        else:
+            messages.error(
+                request, "Old Password is incorrect. Please try again.")
+    return render(request, "home/ChangePassword.html", {"title": "Change Password"})
 
 
 @login_required
@@ -105,6 +135,26 @@ def delete_song(request, url):
         song.delete()
         messages.success(request, "Song Deleted Successfully.")
     return redirect("home:profile")
+
+
+@login_required
+def edit_song(request, url):
+    song = Song.objects.get(url=url)
+    if request.method == "POST":
+        name = request.POST.get("songName")
+        song.name = name
+        song.save()
+        messages.success(request, "Song Updated Successfully.")
+        return redirect("home:profile")
+    return render(request, "home/EditSong.html", {"title": "Edit Song", "song": song})
+
+
+@login_required
+def delete_account(request):
+    user = request.user
+    user.delete()
+    messages.success(request, "Account Deleted Successfully.")
+    return redirect("home:login")
 
 
 @login_required

@@ -1,6 +1,19 @@
 {%extends 'home/Base.html'%}
 {%block content%}
 {%load static%}
+<script>
+	function myFunction() {
+		var x = document.getElementById("password");
+		var y = document.getElementById("confirmPassword");
+		if (x.type === "password") {
+			x.type = "text";
+			y.type = "text";
+		} else {
+			x.type = "password";
+			y.type = "password";
+		}
+	}
+</script>
 <link rel="stylesheet" type="text/css" href="{% static 'home/css/login.css' %}">
 <!-- Messages Start -->
 {% if messages %}
@@ -54,6 +67,10 @@
 							<input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
 								placeholder="Confirm Password">
 							<label for="confirmPassword">Confirm Password</label>
+						</div>
+
+						<div class="form-floating mb-3">
+							<input type="checkbox" onclick="myFunction()"> Show Password
 						</div>
 
 						<div class="d-grid mb-2">

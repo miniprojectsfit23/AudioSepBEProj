@@ -23,6 +23,7 @@
 <!-- Messages End -->
 <div class="container py-5 my-5">
 	<div class="row row-cols-1 row-cols-md-3 gy-4">
+		{%if songs%}
 		{%for song in songs%}
 		<div class="col">
 			<div class="card h-100">
@@ -30,7 +31,9 @@
 					<h5 class="card-title p-2">{{song.name}}</h5>
 					<a href="/song/{{song.url}}" class="btn btn-primary p-2 my-2"><i
 							class="fa-solid fa-magnifying-glass"></i> View</a>
-					<a href="#" class="btn btn-danger p-2 my-2" onClick="deleteConfirm('{{song.url}}')"><i
+					<a href="/edit-song/{{song.url}}" class="btn p-2 my-2" style="background-color: #FFFF00;"><i
+							class="fa-solid fa-pen-to-square"></i> Edit</a>
+					<a href="#" class="btn btn-danger p-2 my-2" onClick="deleteConfirm('/delete-song/{{song.url}}')"><i
 							class="fa-solid fa-trash"></i>
 						Delete</a>
 					<div class="card-footer mt-3">
@@ -40,6 +43,9 @@
 			</div>
 		</div>
 		{%endfor%}
+		{%else%}
+		<h1 class="noSongs align-middle">No Songs Seperated yet.</h1>
+		{%endif%}
 	</div>
 </div>
 {%endblock%}

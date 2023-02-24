@@ -9,14 +9,26 @@ nav {
 	background-color: darkblue;
 	font-size: 1.2em;
 }
+.dropdown-menu {
+	background-color: darkblue;
+	font-size: 19.2px;
+}
+
 #register-li {
 	padding-right: 50px;
 }
 li a.nav-link {
 	color: white !important;
 }
+.dropdown-item {
+	color: white;
+}
 
 li a.nav-link:hover {
+	background-color: aqua;
+	color: black !important;
+}
+.dropdown-item:hover {
 	background-color: aqua;
 	color: black !important;
 }
