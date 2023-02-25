@@ -1,14 +1,5 @@
 from django.shortcuts import render
-import pandas as pd
-import sklearn
-import joblib
-from tensorflow import keras
-import cv2
-from PIL import Image
 import numpy as np
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from django.core.files.images import ImageFile
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -16,8 +7,18 @@ from django.contrib import auth
 from django.contrib import messages
 from .models import User, Song
 from slugify import slugify
+# Modules for Seperation
+import torch
+import torchaudio
+from torchaudio.utils import download_asset
+from torchaudio.pipelines import HDEMUCS_HIGH_MUSDB_PLUS
+from mir_eval import separation
 
 # Create your views here.
+
+
+def seperate(request, song):
+    pass
 
 
 def home(request):
@@ -38,6 +39,7 @@ def home(request):
             song.save()
             messages.success(
                 request, "Song Uploaded Successfully. Processing....")
+            seperate(request, song)
             return redirect("/song/"+url)
     return render(request, "home/Home.html", {"title": "Seperate"})
 
