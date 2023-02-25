@@ -3,7 +3,7 @@ body {
 	background: linear-gradient(to right, #0062e6, #33aeff);
 }
 .noSongs {
-	border-radius: 25px;
+	border-radius: 100px;
 	background: #00008b;
 	color: #fff;
 	font-size: 5em;
