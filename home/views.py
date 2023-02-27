@@ -9,12 +9,21 @@ from .models import User, Song
 from slugify import slugify
 # Modules for Seperation
 from mir_eval import separation
-
+import subprocess
+import os
+import shutil
 # Create your views here.
 
 
 def seperate(song):
-    pass
+    path = song.upload.path
+    output = subprocess.run(
+        "spleeter separate -o "+os.path.dirname(path)+" -p spleeter:5stems "+path, shell=True)
+    directory = os.path.dirname(path)+"\\source\\"
+    for file_name in os.listdir(directory):
+        source = directory+file_name
+        shutil.move(source, os.path.dirname(path))
+    shutil.rmtree(directory)
 
 
 def home(request):
@@ -37,6 +46,9 @@ def home(request):
                 request, "Song Uploaded Successfully. Processing....")
             seperate(song)
             return redirect("/song/"+url)
+        else:
+            messages.error(
+                request, "Please Upload a file before submitting.")
     return render(request, "home/Home.html", {"title": "Seperate"})
 
 
@@ -123,7 +135,9 @@ def change_password(request):
 @login_required
 def song(request, url):
     song = Song.objects.get(url=url)
-    return render(request, "home/Song.html", {"title": "Song", "song": song})
+    path = os.path.dirname(song.upload.path)
+    path = os.path.join(*(path.split(os.path.sep)[3:]))
+    return render(request, "home/Song.html", {"title": "Song", "song": song, "path": path})
 
 
 @login_required

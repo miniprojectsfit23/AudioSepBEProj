@@ -1,7 +1,9 @@
 body {
 	background: url(images/bg.png) repeat 0 0;
 }
-
+#song {
+	width: 100%;
+}
 .card-img-left {
 	width: 45%;
 	/* Link to your background image using in the property below! */
@@ -20,6 +22,26 @@ body {
 	color: white;
 	background-color: #7d0000;
 	border-color: #7d0000;
+}
+.cancel:active {
+	color: white;
+	background-color: red;
+	border-color: red;
+}
+.btn:active {
+	color: white;
+	background-color: #ff0990;
+	border-color: #ff0990;
+}
+.cancel:focus {
+	color: white;
+	background-color: red;
+	border-color: red;
+}
+.btn:focus {
+	color: white;
+	background-color: #ff0990;
+	border-color: #ff0990;
 }
 .btn-login {
 	font-size: 0.9rem;

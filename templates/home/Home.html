@@ -30,7 +30,7 @@
 				</div>
 				<div class="card-body p-4 p-sm-5">
 					<h5 class="card-title text-center mb-5 fw-light fs-5">Upload File for Seperation</h5>
-					<form enctype="multipart/form-data" action="" method="POST">
+					<form id="seperateform" enctype="multipart/form-data" action="" method="POST">
 						{% csrf_token %}
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" name="songName" id="songName"
@@ -39,12 +39,17 @@
 						</div>
 
 						<div class="mb-3">
-							<input class="form-control" type="file" id="formFile" name="songFile">
+							<input class="form-control" type="file" id="songFile" name="songFile">
 						</div>
-
+						<!-- type="submit" -->
 						<div class="d-grid mb-2">
-							<button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
-								type="submit">Seperate</button>
+							<button type="button" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
+								onclick="submitted()">
+								<span id="loader" class="d-none">
+									<span class="spinner-border spinner-border-sm me-1" role="status"
+										aria-hidden="true"></span>
+									Loading</span>
+								<span id="loader_hide">Seperate</span></button>
 						</div>
 
 					</form>

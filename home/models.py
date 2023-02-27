@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 import uuid
 from django.utils import timesince
 import os
+import shutil
 
 # Create your models here.
 
@@ -45,3 +46,7 @@ class Song(models.Model):
     @property
     def timesince(self):
         return timesince.timesince(self.uploadedTime)
+
+    def delete(self, *args, **kwargs):
+        shutil.rmtree(os.path.dirname(self.upload.path))
+        super().delete(*args, **kwargs)

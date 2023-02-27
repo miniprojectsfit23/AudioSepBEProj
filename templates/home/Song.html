@@ -26,21 +26,41 @@
 		<div class="col-lg-10 col-xl-9 mx-auto">
 			<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
 				<div class="card-body p-4 p-sm-5">
-					<h5 class="card-title text-center mb-5 fw-light fs-5">{{song.name}}</h5>
+					<h5 class="card-title text-center mb-5 fw-light fs-5 fw-bolder">{{song.name}}</h5>
 					<a href="#" class="btn btn-danger p-2 d-flex justify-content-center"
 						style="margin-right:44%;margin-left:44%;margin-bottom:2rem;"
-						onClick="deleteConfirm('{{song.url}}')"><i class="fa-solid fa-trash"
+						onClick="deleteConfirm('/delete-song/{{song.url}}')"><i class="fa-solid fa-trash"
 							style="margin-right: 10px;margin-top:4px;"></i>Delete</a>
 					<div class="container">
 						<div class="row">
 							<div class="col" style="border-right:3px solid black;">
-								<label for="song" class="d-flex justify-content-center">Source</label><br>
+								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label><br>
 								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
 									<source src="/media/{{song.upload}}">
 								</audio>
 							</div>
 							<div class="col">
-								<label for="song" class="d-flex justify-content-center">Seperated</label><br>
+								<label for="song" class="d-flex justify-content-center fw-bolder">Seperated</label><br>
+								<label for="song" class="d-flex justify-content-center">Bass</label><br>
+								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+									<source src="/media/{{path}}/bass.wav">
+								</audio>
+								<label for="song" class="d-flex justify-content-center">Drums</label><br>
+								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+									<source src="/media/{{path}}/drums.wav">
+								</audio>
+								<label for="song" class="d-flex justify-content-center">Vocals</label><br>
+								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+									<source src="/media/{{path}}/vocals.wav">
+								</audio>
+								<label for="song" class="d-flex justify-content-center">Piano</label><br>
+								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+									<source src="/media/{{path}}/piano.wav">
+								</audio>
+								<label for="song" class="d-flex justify-content-center">Other</label><br>
+								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+									<source src="/media/{{path}}/other.wav">
+								</audio>
 							</div>
 						</div>
 					</div>
