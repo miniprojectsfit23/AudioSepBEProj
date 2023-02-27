@@ -4,7 +4,8 @@ body {
 }
 .noSongs {
 	border-radius: 100px;
-	background: #00008b;
+	background: #ff1d8e;
+	border: 5px solid black;
 	color: #fff;
 	font-size: 5em;
 	text-align: center;

@@ -8,16 +8,12 @@ from django.contrib import messages
 from .models import User, Song
 from slugify import slugify
 # Modules for Seperation
-import torch
-import torchaudio
-from torchaudio.utils import download_asset
-from torchaudio.pipelines import HDEMUCS_HIGH_MUSDB_PLUS
 from mir_eval import separation
 
 # Create your views here.
 
 
-def seperate(request, song):
+def seperate(song):
     pass
 
 
@@ -39,7 +35,7 @@ def home(request):
             song.save()
             messages.success(
                 request, "Song Uploaded Successfully. Processing....")
-            seperate(request, song)
+            seperate(song)
             return redirect("/song/"+url)
     return render(request, "home/Home.html", {"title": "Seperate"})
 
