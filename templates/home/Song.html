@@ -35,30 +35,36 @@
 						<div class="row">
 							<div class="col" style="border-right:3px solid black;">
 								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{song.upload}}">
 								</audio>
 							</div>
 							<div class="col">
 								<label for="song" class="d-flex justify-content-center fw-bolder">Seperated</label><br>
 								<label for="song" class="d-flex justify-content-center">Bass</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/bass.wav">
 								</audio>
 								<label for="song" class="d-flex justify-content-center">Drums</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/drums.wav">
 								</audio>
 								<label for="song" class="d-flex justify-content-center">Vocals</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/vocals.wav">
 								</audio>
 								<label for="song" class="d-flex justify-content-center">Piano</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/piano.wav">
 								</audio>
 								<label for="song" class="d-flex justify-content-center">Other</label><br>
-								<audio id="song" preload="auto" controls class="d-flex justify-content-center">
+								<audio id="song" preload="auto" autobuffer controls
+									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/other.wav">
 								</audio>
 							</div>

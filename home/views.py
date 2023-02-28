@@ -19,6 +19,7 @@ def seperate(song):
     path = song.upload.path
     output = subprocess.run(
         "spleeter separate -o "+os.path.dirname(path)+" -p spleeter:5stems "+path, shell=True)
+    print(output)
     directory = os.path.dirname(path)+"\\source\\"
     for file_name in os.listdir(directory):
         source = directory+file_name
@@ -49,7 +50,8 @@ def home(request):
         else:
             messages.error(
                 request, "Please Upload a file before submitting.")
-    return render(request, "home/Home.html", {"title": "Seperate"})
+    response = render(request, "home/Home.html", {"title": "Seperate"})
+    return response
 
 
 def login(request):
@@ -137,7 +139,11 @@ def song(request, url):
     song = Song.objects.get(url=url)
     path = os.path.dirname(song.upload.path)
     path = os.path.join(*(path.split(os.path.sep)[3:]))
-    return render(request, "home/Song.html", {"title": "Song", "song": song, "path": path})
+    response = render(request, "home/Song.html",
+                      {"title": "Song", "song": song, "path": path})
+    response['Accept-Ranges'] = 'bytes'
+    print(response['Accept-Ranges'])
+    return response
 
 
 @login_required
