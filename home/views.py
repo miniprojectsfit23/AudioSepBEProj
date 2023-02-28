@@ -9,12 +9,42 @@ from .models import User, Song
 from slugify import slugify
 # Modules for Seperation
 from mir_eval import separation
-
+import os
+from pathlib import Path
+import subprocess
+import demucs
 # Create your views here.
+
+model = "htdemucs"
+extensions = ["mp3", "wav", "ogg", "flac"]
+mp3 = True
+mp3_rate = 320
+float32 = False
+int24 = False
+
+
+def find_files(in_path):
+    out = []
+    for file in Path(in_path).iterdir():
+        if file.suffix.lower().lstrip(".") in extensions:
+            out.append(file)
+    return out
 
 
 def seperate(song):
-    pass
+    path = song.upload.path
+    out_path = os.path.dirname(path)
+    cmd = ["activate AudioSepBEProj", "&&", "python", "-m", "demucs",
+           "-o", str(out_path), "-n", model]
+    if mp3:
+        cmd += ["--mp3", f"--mp3-bitrate={mp3_rate}"]
+    if float32:
+        cmd += ["--float32"]
+    if int24:
+        cmd += ["--int24"]
+    print(" ".join(cmd) + path)
+    output = subprocess.run(((" ".join(cmd)) + " " + path), shell=True)
+    print(output)
 
 
 def home(request):
