@@ -34,35 +34,40 @@
 					<div class="container">
 						<div class="row">
 							<div class="col" style="border-right:3px solid black;">
-								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label><br>
+								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{song.upload}}">
 								</audio>
 							</div>
 							<div class="col">
-								<label for="song" class="d-flex justify-content-center fw-bolder">Seperated</label><br>
-								<label for="song" class="d-flex justify-content-center">Bass</label><br>
+								<label for="song" class="d-flex justify-content-center fw-bolder">Seperated</label>
+								<label for="song" class="my-3 d-flex justify-content-center">Bass: Played in
+									{{song.bass}}%
+									of the song</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/bass.wav">
 								</audio>
-								<label for="song" class="d-flex justify-content-center">Drums</label><br>
+								<label for="song" class="my-3 d-flex justify-content-center">Drums:
+									Played in {{song.drums}}% of the song</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/drums.wav">
 								</audio>
-								<label for="song" class="d-flex justify-content-center">Vocals</label><br>
+								<label for="song" class="my-3 d-flex justify-content-center">Vocals:
+									Played in {{song.vocals}}% of the song</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/vocals.wav">
 								</audio>
-								<label for="song" class="d-flex justify-content-center">Piano</label><br>
+								<label for="song" class="my-3 d-flex justify-content-center">Piano:
+									Played in {{song.piano}}% of the song</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/piano.wav">
 								</audio>
-								<label for="song" class="d-flex justify-content-center">Other</label><br>
+								<label for="song" class="my-3 d-flex justify-content-center">Other</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/other.wav">

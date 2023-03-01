@@ -12,11 +12,23 @@ from mir_eval import separation
 import subprocess
 import os
 import shutil
+from pydub import AudioSegment
+from pydub.silence import split_on_silence
 # Create your views here.
 
 
-def seperate(song):
-    path = song.upload.path
+def analyse(path):
+    song = AudioSegment.from_wav(path)
+    print("Processing: "+os.path.basename(path))
+    audio_chunks = split_on_silence(
+        song, min_silence_len=1, silence_thresh=song.dBFS, keep_silence=0)
+    combined = AudioSegment.empty()
+    for chunk in audio_chunks:
+        combined += chunk
+    return (combined.duration_seconds/song.duration_seconds)*100
+
+
+def seperate(path):
     output = subprocess.run(
         "spleeter separate -o "+os.path.dirname(path)+" -p spleeter:5stems "+path, shell=True)
     print(output)
@@ -42,10 +54,18 @@ def home(request):
             else:
                 song = Song.objects.create(
                     url=url, name=name, user=None, upload=file)
+            seperate(song.upload.path)
+            song.vocals = round(analyse(os.path.dirname(
+                song.upload.path)+"\\vocals.wav"), 2)
+            song.bass = round(analyse(os.path.dirname(
+                song.upload.path)+"\\bass.wav"), 2)
+            song.drums = round(analyse(os.path.dirname(
+                song.upload.path)+"\\drums.wav"), 2)
+            song.piano = round(analyse(os.path.dirname(
+                song.upload.path)+"\\piano.wav"), 2)
             song.save()
             messages.success(
                 request, "Song Uploaded Successfully. Processing....")
-            seperate(song)
             return redirect("/song/"+url)
         else:
             messages.error(
@@ -94,7 +114,7 @@ def register(request):
             user.save()
             messages.success(
                 request, "Your Account has been created successfully.")
-            return redirect("home:home")
+            return redirect("home:login")
         else:
             messages.error(
                 request, "Password and Confirm Password do not match. Please try again.")
