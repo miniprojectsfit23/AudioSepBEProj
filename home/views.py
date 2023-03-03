@@ -21,7 +21,7 @@ def analyse(path):
     song = AudioSegment.from_wav(path)
     print("Processing: "+os.path.basename(path))
     audio_chunks = split_on_silence(
-        song, min_silence_len=1, silence_thresh=song.dBFS, keep_silence=0)
+        song, min_silence_len=1, silence_thresh=-50, keep_silence=0)
     combined = AudioSegment.empty()
     for chunk in audio_chunks:
         combined += chunk
