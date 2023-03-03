@@ -1,20 +1,29 @@
 {%extends 'home/Base.html'%}
 {%block content%}
 {%load static%}
+<script>
+	var wavesurfer = WaveSurfer.create({
+		container: '#waveform',
+		waveColor: 'violet',
+		progressColor: 'purple'
+	});
+</script>
 <link rel="stylesheet" type="text/css" href="{% static 'home/css/login.css' %}">
 <!-- Messages Start -->
 {% if messages %}
 {% for message in messages %}
 {% if message.tags == 'success'%}
 <script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
 	;toastr.{{ message.tags }}('{{ message }}')</script> {% endif %} {% endfor %} {% endif %} <!-- Messages End -->
-<div class="container">
+	<script src="https://unpkg.com/wavesurfer.js"></script>
+	<div id="waveform">
+	<div class="container">
 	<div class="row">
 		<div class="col-lg-10 col-xl-9 mx-auto">
 			<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
@@ -24,9 +33,11 @@
 						<div class="row">
 							<div class="col" style="border-right:3px solid black;">
 								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label>
+								<label for="song" class="my-3 d-flex justify-content-center">Original Song</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{song.upload}}">
+									
 								</audio>
 							</div>
 							<div class="col">
@@ -56,7 +67,7 @@
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/piano.wav">
 								</audio>
-								<label for="song" class="my-3 d-flex justify-content-center">Other</label>
+								<label for="song" class="my-3 d-flex justify-content-center">Other Instruments</label>
 								<audio id="song" preload="auto" autobuffer controls
 									class="d-flex justify-content-center">
 									<source src="/media/{{path}}/other.wav">
@@ -67,5 +78,6 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	{%endblock%}
