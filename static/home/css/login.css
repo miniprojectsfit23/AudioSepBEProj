@@ -1,7 +1,10 @@
 body {
 	background: url(images/bg.png) repeat 0 0;
 }
-#song {
+#song_source {
+	width: 100%;
+}
+#song_seperated {
 	width: 100%;
 }
 .card-img-left {
