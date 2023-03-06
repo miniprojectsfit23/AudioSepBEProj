@@ -157,8 +157,7 @@ def change_password(request):
 @login_required
 def song(request, url):
     song = Song.objects.get(url=url)
-    path = os.path.dirname(song.upload.path)
-    path = os.path.join(*(path.split(os.path.sep)[3:]))
+    path = os.path.dirname(str(song.upload))
     response = render(request, "home/Song.html",
                       {"title": "Song", "song": song, "path": path})
     response['Accept-Ranges'] = 'bytes'
