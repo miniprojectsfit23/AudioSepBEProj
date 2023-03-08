@@ -1,5 +1,7 @@
 body {
-	background: url(images/bg.png) repeat 0 0;
+	background: url(images/bg.png);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 #song_source {
 	width: 100%;

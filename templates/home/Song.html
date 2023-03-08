@@ -1,84 +1,200 @@
 {%extends 'home/Base.html'%}
 {%block content%}
 {%load static%}
-<script>
-	var wavesurfer = WaveSurfer.create({
-		container: '#waveform',
-		waveColor: 'violet',
-		progressColor: 'purple'
-	});
-</script>
+<style>
+	.center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+	}
+</style>
 <link rel="stylesheet" type="text/css" href="{% static 'home/css/login.css' %}">
 <!-- Messages Start -->
 {% if messages %}
 {% for message in messages %}
 {% if message.tags == 'success'%}
 <script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
 	;toastr.{{ message.tags }}('{{ message }}')</script> {% endif %} {% endfor %} {% endif %} <!-- Messages End -->
-<script src="https://unpkg.com/wavesurfer.js"></script>
-<div id="waveform">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-10 col-xl-9 mx-auto">
-				<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
-					<div class="card-body p-4 p-sm-5">
-						<h5 class="card-title text-center mb-5 fw-light fs-5 fw-bolder">{{song.name}}</h5>
-						<div class="container">
-							<div class="row">
-								<div class="col" style="border-right:3px solid black;">
-									<label for="song" class="d-flex justify-content-center fw-bolder">Source</label>
-									<label for="song" class="my-3 d-flex justify-content-center">Original Song</label>
-									<audio id="song_source" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{song.upload}}">
+	<script src="https://unpkg.com/wavesurfer.js"></script>
 
-									</audio>
-								</div>
-								<div class="col">
-									<label for="song" class="d-flex justify-content-center fw-bolder">Seperated</label>
-									<label for="song" class="my-3 d-flex justify-content-center"><i
-											class="fa-solid fa-guitar me-2"></i> Bass: Played in
-										{{song.bass}}%
-										of the song</label>
-									<audio id="song_seperated" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{path}}/bass.wav">
-									</audio>
-									<label for="song" class="my-3 d-flex justify-content-center"><i
-											class="fa-solid fa-drum me-2"></i> Drums:
-										Played in {{song.drums}}% of the song</label>
-									<audio id="song_seperated" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{path}}/drums.wav">
-									</audio>
-									<label for="song" class="my-3 d-flex justify-content-center"><i
-											class="fa-solid fa-microphone-lines me-2"></i> Vocals:
-										Played in {{song.vocals}}% of the song</label>
-									<audio id="song_seperated" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{path}}/vocals.wav">
-									</audio>
-									<label for="song" class="my-3 d-flex justify-content-center"><i
-											class="fa-solid fa-keyboard me-2"></i> Piano:
-										Played in {{song.piano}}% of the song</label>
-									<audio id="song_seperated" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{path}}/piano.wav">
-									</audio>
-									<label for="song" class="my-3 d-flex justify-content-center"><i
-											class="fa-solid fa-music me-2"></i> Other
-										Instruments</label>
-									<audio id="song_seperated" preload="auto" autobuffer controls
-										class="d-flex justify-content-center">
-										<source src="/media/{{path}}/other.wav">
-									</audio>
-								</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-10 col-xl-9 mx-auto">
+			<div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+				<div class="card-body p-4 p-sm-5">
+					<h5 class="card-title text-center mb-5 fw-light fs-5 fw-bolder">{{song.name}}</h5>
+					<div class="container">
+						<div class="row">
+							<div class="col" style="border-right:3px solid black;">
+								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label>
+								<label for="song" class="my-3 d-flex justify-content-center">Original Song</label>
+								<audio id="song_source" preload="auto">
+									<source src="/media/{{song.upload}}">
+								</audio>
+								<span id="song_status" class="center">Paused</span>
+								<!-- New span element to display the status -->
+								<img src="{%static '/home/images/song.png' %}" onClick="toggleAudioSource();"
+									class="center" />
+
+								<script>
+									function toggleAudioSource() {
+										var audio = document.getElementById('song_source');
+										var status = document.getElementById('song_status'); // Get the span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
+							</div>
+							<div class="col">
+								<label for="song" class="d-flex justify-content-center fw-bolder">Separated</label>
+								<label for="song" class="my-3 d-flex justify-content-center"><i
+										class="fa-solid fa-guitar me-2"></i>
+									Bass: Played in
+									{{song.bass}}%
+									of the song</label>
+								<audio id="song_separated_bass" preload="auto">
+									<source src="/media/{{path}}/bass.wav">
+								</audio>
+								<span id="song_status_bass" class="center">Paused</span>
+								<img src="{%static '/home/images/guitar.png' %}" onClick="toggleAudioBass();"
+									class="center" />
+								<script>
+									function toggleAudioBass() {
+										var audio = document.getElementById('song_separated_bass');
+										var status = document.getElementById(
+											'song_status_bass'); // Use a different id for the bass audio status span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
+								<label for="song" class="my-3 d-flex justify-content-center"><i
+										class="fa-solid fa-drum me-2"></i>
+									Drums:
+									Played in {{song.drums}}% of the song</label>
+								<audio id="song_separated_drums" preload="auto">
+									<source src="/media/{{path}}/drums.wav">
+								</audio>
+								<span id="song_status_drums" class="center">Paused</span>
+								<img src="{%static '/home/images/drums.png' %}" onClick="toggleAudioDrums();"
+									class="center" />
+								<script>
+									function toggleAudioDrums() {
+										var audio = document.getElementById('song_separated_drums');
+										var status = document.getElementById(
+											'song_status_drums'); // Use a different id for the bass audio status span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
+								<label for="song" class="my-3 d-flex justify-content-center"><i
+										class="fa-solid fa-microphone-lines me-2"></i>
+									Vocals:
+									Played in {{song.vocals}}% of the song</label>
+								<audio id="song_separated_vocals" preload="auto">
+									<source src="/media/{{path}}/vocals.wav">
+								</audio>
+								<span id="song_status_vocals" class="center">Paused</span>
+								<img src="{%static '/home/images/vocals.png' %}" onClick="toggleAudioVocals();"
+									class="center" />
+								<script>
+									function toggleAudioVocals() {
+										var audio = document.getElementById('song_separated_vocals');
+										var status = document.getElementById(
+											'song_status_vocals'); // Use a different id for the bass audio status span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
+
+
+								<label for="song" class="my-3 d-flex justify-content-center"><i
+										class="fa-solid fa-keyboard me-2"></i>
+									Piano:
+									Played in {{song.piano}}% of the song</label>
+								<audio id="song_separated_piano" preload="auto">
+									<source src="/media/{{path}}/piano.wav">
+								</audio>
+								<span id="song_status_piano" class="center">Paused</span>
+								<img src="{%static '/home/images/piano.png' %}" onClick="toggleAudioPiano();"
+									class="center" />
+								<script>
+									function toggleAudioPiano() {
+										var audio = document.getElementById('song_separated_piano');
+										var status = document.getElementById(
+											'song_status_piano'); // Use a different id for the bass audio status span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
+
+								<label for="song" class="my-3 d-flex justify-content-center"><i
+										class="fa-solid fa-music me-2"></i>
+									Other
+									Instruments</label>
+								<audio id="song_separated_others" preload="auto">
+									<source src="/media/{{path}}/other.wav">
+								</audio>
+								<span id="song_status_others" class="center">Paused</span>
+								<img src="{%static '/home/images/other.png' %}" onClick="toggleAudioOther();"
+									class="center" />
+								<script>
+									function toggleAudioOther() {
+										var audio = document.getElementById('song_separated_others');
+										var status = document.getElementById(
+											'song_status_others'); // Use a different id for the bass audio status span element
+										if (audio.paused) {
+											audio.play();
+											status.innerText = "Playing..."; // Update the status
+											status.style.color = "red"; // Change the text color to red
+										} else {
+											audio.pause();
+											status.innerText = "Paused"; // Update the status
+											status.style.color = "black"; // Change the text color back to black
+										}
+									}
+								</script>
 							</div>
 						</div>
 					</div>
@@ -86,4 +202,5 @@
 			</div>
 		</div>
 	</div>
+
 	{%endblock%}
