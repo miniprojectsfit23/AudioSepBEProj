@@ -3,6 +3,9 @@ body {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 }
+[id*="song_status"] {
+	text-align: center;
+}
 #song_source {
 	width: 100%;
 }

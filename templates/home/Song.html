@@ -15,14 +15,14 @@
 {% for message in messages %}
 {% if message.tags == 'success'%}
 <script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %} <script
-	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %} <script
-	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %} <script
-	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %}
+<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %}
+<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %}
+<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
 	;toastr.{{ message.tags }}('{{ message }}')</script> {% endif %} {% endfor %} {% endif %} <!-- Messages End -->
-	<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="https://unpkg.com/wavesurfer.js"></script>
 
 <div class="container">
 	<div class="row">
@@ -34,34 +34,49 @@
 						<div class="row">
 							<div class="col" style="border-right:3px solid black;">
 								<label for="song" class="d-flex justify-content-center fw-bolder">Source</label>
-								<label for="song" class="my-3 d-flex justify-content-center">Original Song</label>
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder">Original
+									Song</label>
 								<audio id="song_source" preload="auto">
 									<source src="/media/{{song.upload}}">
 								</audio>
-								<span id="song_status" class="center">Paused</span>
+								<span id="song_status" class="center">Click to Play</span>
 								<!-- New span element to display the status -->
 								<img src="{%static '/home/images/song.png' %}" onClick="toggleAudioSource();"
 									class="center" />
-
+								<div id="waveform_source"></div>
 								<script>
+									var waveform_source = WaveSurfer.create({
+										container: '#waveform_source',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_source.load('/media/{{song.upload}}');
+									waveform_source.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_source');
+										wave.style.display = "none";
+									});
 									function toggleAudioSource() {
-										var audio = document.getElementById('song_source');
+										var wave = document.getElementById('waveform_source');
 										var status = document.getElementById('song_status'); // Get the span element
-										if (audio.paused) {
-											audio.play();
+										if (!waveform_source.isPlaying()) {
+											wave.style.display = "block";
+											waveform_source.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_source.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
 									}
 								</script>
+
 							</div>
 							<div class="col">
 								<label for="song" class="d-flex justify-content-center fw-bolder">Separated</label>
-								<label for="song" class="my-3 d-flex justify-content-center"><i
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder"><i
 										class="fa-solid fa-guitar me-2"></i>
 									Bass: Played in
 									{{song.bass}}%
@@ -69,72 +84,111 @@
 								<audio id="song_separated_bass" preload="auto">
 									<source src="/media/{{path}}/bass.wav">
 								</audio>
-								<span id="song_status_bass" class="center">Paused</span>
+								<span id="song_status_bass" class="center">Click to Play</span>
 								<img src="{%static '/home/images/guitar.png' %}" onClick="toggleAudioBass();"
 									class="center" />
+								<div id="waveform_bass"></div>
 								<script>
+									var waveform_bass = WaveSurfer.create({
+										container: '#waveform_bass',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_bass.load('/media/{{path}}/bass.wav');
+									waveform_bass.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_bass');
+										wave.style.display = "none";
+									});
 									function toggleAudioBass() {
-										var audio = document.getElementById('song_separated_bass');
-										var status = document.getElementById(
-											'song_status_bass'); // Use a different id for the bass audio status span element
-										if (audio.paused) {
-											audio.play();
+										var wave = document.getElementById('waveform_bass');
+										var status = document.getElementById('song_status_bass'); // Get the span element
+										if (!waveform_bass.isPlaying()) {
+											wave.style.display = "block";
+											waveform_bass.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_bass.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
 									}
 								</script>
-								<label for="song" class="my-3 d-flex justify-content-center"><i
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder"><i
 										class="fa-solid fa-drum me-2"></i>
 									Drums:
 									Played in {{song.drums}}% of the song</label>
 								<audio id="song_separated_drums" preload="auto">
 									<source src="/media/{{path}}/drums.wav">
 								</audio>
-								<span id="song_status_drums" class="center">Paused</span>
+								<span id="song_status_drums" class="center">Click to Play</span>
 								<img src="{%static '/home/images/drums.png' %}" onClick="toggleAudioDrums();"
 									class="center" />
+								<div id="waveform_drums"></div>
 								<script>
+									var waveform_drums = WaveSurfer.create({
+										container: '#waveform_drums',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_drums.load('/media/{{path}}/drums.wav');
+									waveform_drums.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_drums');
+										wave.style.display = "none";
+									});
 									function toggleAudioDrums() {
-										var audio = document.getElementById('song_separated_drums');
-										var status = document.getElementById(
-											'song_status_drums'); // Use a different id for the bass audio status span element
-										if (audio.paused) {
-											audio.play();
+										var wave = document.getElementById('waveform_drums');
+										var status = document.getElementById('song_status_drums'); // Get the span element
+										if (!waveform_drums.isPlaying()) {
+											wave.style.display = "block";
+											waveform_drums.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_drums.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
 									}
 								</script>
-								<label for="song" class="my-3 d-flex justify-content-center"><i
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder"><i
 										class="fa-solid fa-microphone-lines me-2"></i>
 									Vocals:
 									Played in {{song.vocals}}% of the song</label>
 								<audio id="song_separated_vocals" preload="auto">
-									<source src="/media/{{path}}/vocals.wav">
+									<source src="/media/{{path}}/.wav">
 								</audio>
-								<span id="song_status_vocals" class="center">Paused</span>
+								<span id="song_status_vocals" class="center">Click to Play</span>
 								<img src="{%static '/home/images/vocals.png' %}" onClick="toggleAudioVocals();"
 									class="center" />
+								<div id="waveform_vocals"></div>
 								<script>
+									var waveform_vocals = WaveSurfer.create({
+										container: '#waveform_vocals',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_vocals.load('/media/{{path}}/vocals.wav');
+									waveform_vocals.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_vocals');
+										wave.style.display = "none";
+									});
 									function toggleAudioVocals() {
-										var audio = document.getElementById('song_separated_vocals');
-										var status = document.getElementById(
-											'song_status_vocals'); // Use a different id for the bass audio status span element
-										if (audio.paused) {
-											audio.play();
+										var wave = document.getElementById('waveform_vocals');
+										var status = document.getElementById('song_status_vocals'); // Get the span element
+										if (!waveform_vocals.isPlaying()) {
+											wave.style.display = "block";
+											waveform_vocals.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_vocals.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
@@ -142,54 +196,80 @@
 								</script>
 
 
-								<label for="song" class="my-3 d-flex justify-content-center"><i
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder"><i
 										class="fa-solid fa-keyboard me-2"></i>
 									Piano:
 									Played in {{song.piano}}% of the song</label>
 								<audio id="song_separated_piano" preload="auto">
 									<source src="/media/{{path}}/piano.wav">
 								</audio>
-								<span id="song_status_piano" class="center">Paused</span>
+								<span id="song_status_piano" class="center">Click to Play</span>
 								<img src="{%static '/home/images/piano.png' %}" onClick="toggleAudioPiano();"
 									class="center" />
+								<div id="waveform_piano"></div>
 								<script>
+									var waveform_piano = WaveSurfer.create({
+										container: '#waveform_piano',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_piano.load('/media/{{path}}/piano.wav');
+									waveform_piano.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_piano');
+										wave.style.display = "none";
+									});
 									function toggleAudioPiano() {
-										var audio = document.getElementById('song_separated_piano');
-										var status = document.getElementById(
-											'song_status_piano'); // Use a different id for the bass audio status span element
-										if (audio.paused) {
-											audio.play();
+										var wave = document.getElementById('waveform_piano');
+										var status = document.getElementById('song_status_piano'); // Get the span element
+										if (!waveform_piano.isPlaying()) {
+											wave.style.display = "block";
+											waveform_piano.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_piano.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
 									}
 								</script>
 
-								<label for="song" class="my-3 d-flex justify-content-center"><i
+								<label for="song" class="my-3 d-flex justify-content-center fw-bolder"><i
 										class="fa-solid fa-music me-2"></i>
 									Other
 									Instruments</label>
 								<audio id="song_separated_others" preload="auto">
 									<source src="/media/{{path}}/other.wav">
 								</audio>
-								<span id="song_status_others" class="center">Paused</span>
+								<span id="song_status_others" class="center">Click to Play</span>
 								<img src="{%static '/home/images/other.png' %}" onClick="toggleAudioOther();"
 									class="center" />
+								<div id="waveform_others"></div>
 								<script>
+									var waveform_others = WaveSurfer.create({
+										container: '#waveform_others',
+										waveColor: 'violet',
+										progressColor: 'purple',
+										backend: 'MediaElement'
+									});
+									waveform_others.load('/media/{{path}}/other.wav');
+									waveform_others.on('waveform-ready', function () {
+										var wave = document.getElementById('waveform_others');
+										wave.style.display = "none";
+									});
 									function toggleAudioOther() {
-										var audio = document.getElementById('song_separated_others');
-										var status = document.getElementById(
-											'song_status_others'); // Use a different id for the bass audio status span element
-										if (audio.paused) {
-											audio.play();
+										var wave = document.getElementById('waveform_others');
+										var status = document.getElementById('song_status_others'); // Get the span element
+										if (!waveform_others.isPlaying()) {
+											wave.style.display = "block";
+											waveform_others.playPause();
 											status.innerText = "Playing..."; // Update the status
 											status.style.color = "red"; // Change the text color to red
 										} else {
-											audio.pause();
+											wave.style.display = "none";
+											waveform_others.playPause();
 											status.innerText = "Paused"; // Update the status
 											status.style.color = "black"; // Change the text color back to black
 										}
