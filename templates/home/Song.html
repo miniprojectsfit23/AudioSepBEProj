@@ -15,14 +15,14 @@
 {% for message in messages %}
 {% if message.tags == 'success'%}
 <script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
-	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %}
-<script type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'info' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'warning' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
+	;toastr.{{ message.tags }}('{{ message }}')</script> {% elif message.tags == 'error' %} <script
+	type=text/javascript>toastr.options.positionClass='toast-bottom-right'
 	;toastr.{{ message.tags }}('{{ message }}')</script> {% endif %} {% endfor %} {% endif %} <!-- Messages End -->
-<script src="https://unpkg.com/wavesurfer.js"></script>
+	<script src="https://unpkg.com/wavesurfer.js"></script>
 
 <div class="container">
 	<div class="row">
@@ -47,8 +47,11 @@
 								<script>
 									var waveform_source = WaveSurfer.create({
 										container: '#waveform_source',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_source.load('/media/{{song.upload}}');
@@ -56,6 +59,7 @@
 										var wave = document.getElementById('waveform_source');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioSource() {
 										var wave = document.getElementById('waveform_source');
 										var status = document.getElementById('song_status'); // Get the span element
@@ -91,8 +95,11 @@
 								<script>
 									var waveform_bass = WaveSurfer.create({
 										container: '#waveform_bass',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_bass.load('/media/{{path}}/bass.wav');
@@ -100,6 +107,7 @@
 										var wave = document.getElementById('waveform_bass');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioBass() {
 										var wave = document.getElementById('waveform_bass');
 										var status = document.getElementById('song_status_bass'); // Get the span element
@@ -130,8 +138,11 @@
 								<script>
 									var waveform_drums = WaveSurfer.create({
 										container: '#waveform_drums',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_drums.load('/media/{{path}}/drums.wav');
@@ -139,6 +150,7 @@
 										var wave = document.getElementById('waveform_drums');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioDrums() {
 										var wave = document.getElementById('waveform_drums');
 										var status = document.getElementById('song_status_drums'); // Get the span element
@@ -169,8 +181,11 @@
 								<script>
 									var waveform_vocals = WaveSurfer.create({
 										container: '#waveform_vocals',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_vocals.load('/media/{{path}}/vocals.wav');
@@ -178,6 +193,7 @@
 										var wave = document.getElementById('waveform_vocals');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioVocals() {
 										var wave = document.getElementById('waveform_vocals');
 										var status = document.getElementById('song_status_vocals'); // Get the span element
@@ -210,8 +226,11 @@
 								<script>
 									var waveform_piano = WaveSurfer.create({
 										container: '#waveform_piano',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_piano.load('/media/{{path}}/piano.wav');
@@ -219,6 +238,7 @@
 										var wave = document.getElementById('waveform_piano');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioPiano() {
 										var wave = document.getElementById('waveform_piano');
 										var status = document.getElementById('song_status_piano'); // Get the span element
@@ -250,8 +270,11 @@
 								<script>
 									var waveform_others = WaveSurfer.create({
 										container: '#waveform_others',
-										waveColor: 'violet',
-										progressColor: 'purple',
+										waveColor: '#ddd',
+										progressColor: '#ff0990',
+										barWidth: 4,
+										responsive: true,
+										barRadius: 4,
 										backend: 'MediaElement'
 									});
 									waveform_others.load('/media/{{path}}/other.wav');
@@ -259,6 +282,7 @@
 										var wave = document.getElementById('waveform_others');
 										wave.style.display = "none";
 									});
+
 									function toggleAudioOther() {
 										var wave = document.getElementById('waveform_others');
 										var status = document.getElementById('song_status_others'); // Get the span element
