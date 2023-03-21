@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 import uuid
 from django.utils import timesince
 import os
+import shutil
 
 # Create your models here.
 
@@ -40,8 +41,16 @@ class Song(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, related_name="song_uploader")
     upload = models.FileField(upload_to=create_path)
+    vocals = models.FloatField(default=0.0)
+    bass = models.FloatField(default=0.0)
+    drums = models.FloatField(default=0.0)
+    piano = models.FloatField(default=0.0)
     uploadedTime = models.DateTimeField(auto_now_add=True)
 
     @property
     def timesince(self):
         return timesince.timesince(self.uploadedTime)
+
+    def delete(self, *args, **kwargs):
+        shutil.rmtree(os.path.dirname(self.upload.path))
+        super().delete(*args, **kwargs)

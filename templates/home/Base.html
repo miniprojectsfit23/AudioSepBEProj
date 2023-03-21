@@ -20,15 +20,25 @@
 				window.location.replace(link)
 			}
 		}
+		function submitted() {
+			var songName = document.getElementById("songName").value;
+			var songFile = document.getElementById("songFile").value;
+			if (songName && songFile) {
+				document.getElementById("loader").classList.remove("d-none");
+				document.getElementById("loader_hide").classList.add("d-none");
+				seperateform.submit();
+			}
+		}
 	</script>
+	<script src="https://unpkg.com/wavesurfer.js"></script>
 	<title>Audio Source Seperator - {{title}}</title>
-	
+
 </head>
 
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-	</script>
+		</script>
 	{%include 'home/navbar.html'%}
 	{%block content%}
 	{%endblock%}
