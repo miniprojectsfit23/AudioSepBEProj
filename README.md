@@ -40,3 +40,9 @@ The project requires the following packages:
 - Google Colab/Jupyter Notebook
 
 All required packages can be installed by running `pip install -r requirements.txt`.
+
+## Temporary deployment
+
+To run this on your local machine type-
+`python manage.py runserver`
+
